@@ -7,19 +7,24 @@ class DisplayTetrimino extends StatefulWidget {
   final int initHorizontalPosition;
   final TETRIMINO_NAME initTetrimino;
   final int initVerticalPosition;
+  final int rotatePosition;
+  final Function(TETRIMINO_NAME, bool) existDisablePosition;
+  final Function(int) changeRightHorizontalPosition;
 
-  DisplayTetrimino(
-      {@required this.initTetrimino,
-      @required this.initHorizontalPosition,
-      @required this.initVerticalPosition});
+  DisplayTetrimino({
+    @required this.initTetrimino,
+    @required this.initHorizontalPosition,
+    @required this.initVerticalPosition,
+    @required this.rotatePosition,
+    @required this.existDisablePosition,
+    @required this.changeRightHorizontalPosition,
+  });
 
   @override
   _DisplayTetriminoState createState() => _DisplayTetriminoState();
 }
 
 class _DisplayTetriminoState extends State<DisplayTetrimino> {
-  int rightWidth = 0;
-
   Color _getTetriminoColor(TETRIMINO_NAME name) {
     switch (name) {
       case TETRIMINO_NAME.I:
@@ -73,135 +78,58 @@ class _DisplayTetriminoState extends State<DisplayTetrimino> {
 
   List<Column> createItem(TETRIMINO_NAME name) {
     List<Column> _tetriminoList = [];
+    TetriminoInfo itemInfo;
     switch (name) {
       case TETRIMINO_NAME.I:
-        tetriminoI.forEach((TetriminoCollision element) {
-          List<Widget> _listVertical = [];
-          int cnt = 0;
-          element.collision.forEach((bool value) {
-            if (value) rightWidth = cnt;
-            _listVertical.add(
-              _getTetriminoWidget(name, value),
-            );
-          });
-          cnt++;
-          _tetriminoList.add(
-            Column(
-              children: _listVertical,
-            ),
-          );
-        });
+        itemInfo = tetriminoI(widget.rotatePosition);
         break;
       case TETRIMINO_NAME.T:
-        tetriminoT.forEach((TetriminoCollision element) {
-          List<Widget> _listVertical = [];
-          int cnt = 0;
-          element.collision.forEach((bool value) {
-            if (value) rightWidth = cnt;
-            _listVertical.add(
-              _getTetriminoWidget(name, value),
-            );
-          });
-          cnt++;
-          _tetriminoList.add(
-            Column(
-              children: _listVertical,
-            ),
-          );
-        });
+        itemInfo = tetriminoT(widget.rotatePosition);
         break;
       case TETRIMINO_NAME.S:
-        tetriminoS.forEach((TetriminoCollision element) {
-          List<Widget> _listVertical = [];
-          int cnt = 0;
-          element.collision.forEach((bool value) {
-            if (value) rightWidth = cnt;
-            _listVertical.add(
-              _getTetriminoWidget(name, value),
-            );
-          });
-          cnt++;
-          _tetriminoList.add(
-            Column(
-              children: _listVertical,
-            ),
-          );
-        });
+        itemInfo = tetriminoS(widget.rotatePosition);
         break;
       case TETRIMINO_NAME.Z:
-        tetriminoZ.forEach((TetriminoCollision element) {
-          List<Widget> _listVertical = [];
-          int cnt = 0;
-          element.collision.forEach((bool value) {
-            if (value) rightWidth = cnt;
-            _listVertical.add(
-              _getTetriminoWidget(name, value),
-            );
-          });
-          cnt++;
-          _tetriminoList.add(
-            Column(
-              children: _listVertical,
-            ),
-          );
-        });
+        itemInfo = tetriminoZ(widget.rotatePosition);
         break;
       case TETRIMINO_NAME.J:
-        tetriminoJ.forEach((TetriminoCollision element) {
-          List<Widget> _listVertical = [];
-          int cnt = 0;
-          element.collision.forEach((bool value) {
-            if (value) rightWidth = cnt;
-            _listVertical.add(
-              _getTetriminoWidget(name, value),
-            );
-          });
-          cnt++;
-          _tetriminoList.add(
-            Column(
-              children: _listVertical,
-            ),
-          );
-        });
+        itemInfo = tetriminoJ(widget.rotatePosition);
         break;
       case TETRIMINO_NAME.L:
-        tetriminoL.forEach((TetriminoCollision element) {
-          List<Widget> _listVertical = [];
-          int cnt = 0;
-          element.collision.forEach((bool value) {
-            if (value) rightWidth = cnt;
-            _listVertical.add(
-              _getTetriminoWidget(name, value),
-            );
-          });
-          cnt++;
-          _tetriminoList.add(
-            Column(
-              children: _listVertical,
-            ),
-          );
-        });
+        itemInfo = tetriminoL(widget.rotatePosition);
         break;
       case TETRIMINO_NAME.O:
-        tetriminoO.forEach((TetriminoCollision element) {
-          List<Widget> _listVertical = [];
-          int cnt = 0;
-          element.collision.forEach((bool value) {
-            if (value) rightWidth = cnt;
-            _listVertical.add(
-              _getTetriminoWidget(name, value),
-            );
-          });
-          cnt++;
-          _tetriminoList.add(
-            Column(
-              children: _listVertical,
-            ),
-          );
-        });
+        itemInfo = tetriminoO(widget.rotatePosition);
         break;
     }
 
+    widget.existDisablePosition(name, itemInfo.disableCollision);
+    int cnt = 0;
+    itemInfo
+        .tetrimino
+        .forEach((TetriminoCollision element) {
+      List<Widget> _listVertical = [];
+      element.collision.forEach((bool value) {
+        if (!itemInfo.disableCollision ||
+            widget.initHorizontalPosition >= 0) {
+          _listVertical.add(
+            _getTetriminoWidget(name, value),
+          );
+        } else if (itemInfo.disableCollision && cnt > 0) {
+          _listVertical.add(
+            _getTetriminoWidget(name, value),
+          );
+        }
+      });
+      cnt++;
+      _tetriminoList.add(
+        Column(
+          children: _listVertical,
+        ),
+      );
+    });
+
+    widget.changeRightHorizontalPosition(cnt);
     return _tetriminoList;
   }
 
@@ -238,7 +166,10 @@ class _DisplayTetriminoState extends State<DisplayTetrimino> {
       margin: EdgeInsets.only(bottom: 70.0),
       child: Row(
         children: _createCell(
-            widget.initHorizontalPosition, widget.initVerticalPosition),
+            widget.initHorizontalPosition >= 0
+                ? widget.initHorizontalPosition
+                : 0,
+            widget.initVerticalPosition),
       ),
     );
   }

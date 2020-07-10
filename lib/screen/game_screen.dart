@@ -13,18 +13,44 @@ class _GameScreenState extends State<GameScreen> {
   int rightHorizontalPosition;
   int baseVerticalPosition;
   int bottomVerticalPosition;
+  int rotatePosition;
+  int minHorizontal;
 
   TETRIMINO_NAME initTetrimino;
+
+  void existDisableCollision(TETRIMINO_NAME name, bool exist) {
+    switch (name) {
+      case TETRIMINO_NAME.I:
+      case TETRIMINO_NAME.T:
+      case TETRIMINO_NAME.S:
+      case TETRIMINO_NAME.Z:
+      case TETRIMINO_NAME.J:
+      case TETRIMINO_NAME.L:
+        if (exist)
+          minHorizontal = -1;
+        else
+          minHorizontal = 0;
+        break;
+      case TETRIMINO_NAME.O:
+        break;
+    }
+  }
+
+  void changeRightHorizontalPosition(int position) {
+    rightHorizontalPosition = position;
+  }
 
   @override
   void initState() {
     super.initState();
     // TODO 動的にテトリミノを変える
-    initTetrimino = TETRIMINO_NAME.T;
+    initTetrimino = TETRIMINO_NAME.O;
     baseHorizontalPosition = 4;
-    rightHorizontalPosition = 3;
+    rightHorizontalPosition = 2;
     baseVerticalPosition = 0;
     bottomVerticalPosition = 2;
+    rotatePosition = 0;
+    minHorizontal = 0;
   }
 
   List<Widget> _createCell() {
@@ -52,6 +78,139 @@ class _GameScreenState extends State<GameScreen> {
     return list;
   }
 
+  bool _changeRotate(TETRIMINO_NAME name, bool leftDirection) {
+    switch (name) {
+      case TETRIMINO_NAME.I:
+        print(baseHorizontalPosition);
+        if (leftDirection) {
+          if (rightHorizontalPosition == 4 ||
+              (baseHorizontalPosition >= 0 &&
+                  baseHorizontalPosition + rightHorizontalPosition <= 8)) {
+            setState(() {
+              if (rotatePosition < 3)
+                rotatePosition++;
+              else
+                rotatePosition = 0;
+            });
+          }
+        } else {
+          if (rightHorizontalPosition == 4 ||
+              (baseHorizontalPosition >= 0 &&
+                  baseHorizontalPosition + rightHorizontalPosition <= 8)) {
+            setState(() {
+              if (rotatePosition < 3)
+                rotatePosition++;
+              else
+                rotatePosition = 0;
+            });
+          }
+        }
+        break;
+      case TETRIMINO_NAME.T:
+        if (leftDirection) {
+          if (baseHorizontalPosition != -1 &&
+              (baseHorizontalPosition + rightHorizontalPosition != 10 ||
+                  rotatePosition != 1)) {
+            setState(() {
+              if (rotatePosition < 3)
+                rotatePosition++;
+              else
+                rotatePosition = 0;
+            });
+          }
+        } else {
+          if (baseHorizontalPosition != -1 &&
+              (baseHorizontalPosition + rightHorizontalPosition != 10 ||
+                  rotatePosition != 1)) {
+            setState(() {
+              if (rotatePosition > 0)
+                rotatePosition--;
+              else
+                rotatePosition = 3;
+            });
+          }
+        }
+        break;
+      case TETRIMINO_NAME.S:
+      case TETRIMINO_NAME.Z:
+        if (leftDirection) {
+          if (baseHorizontalPosition != -1 &&
+              baseHorizontalPosition + rightHorizontalPosition < 10) {
+            setState(() {
+              if (rotatePosition < 3)
+                rotatePosition++;
+              else
+                rotatePosition = 0;
+            });
+          }
+        } else {
+          if (baseHorizontalPosition != -1 &&
+              baseHorizontalPosition + rightHorizontalPosition < 10) {
+            setState(() {
+              if (rotatePosition > 0)
+                rotatePosition--;
+              else
+                rotatePosition = 3;
+            });
+          }
+        }
+        break;
+      case TETRIMINO_NAME.J:
+        if (leftDirection) {
+          if (baseHorizontalPosition != -1 &&
+                  (baseHorizontalPosition + rightHorizontalPosition != 10 ||
+              rotatePosition != 0)) {
+            setState(() {
+              if (rotatePosition < 3)
+                rotatePosition++;
+              else
+                rotatePosition = 0;
+            });
+          }
+        } else {
+          if (baseHorizontalPosition != -1 &&
+              (baseHorizontalPosition + rightHorizontalPosition != 10 ||
+                  rotatePosition != 0)) {
+            setState(() {
+              if (rotatePosition > 0)
+                rotatePosition--;
+              else
+                rotatePosition = 3;
+            });
+          }
+        }
+        break;
+      case TETRIMINO_NAME.L:
+        if (leftDirection) {
+          if (baseHorizontalPosition != -1 &&
+              (baseHorizontalPosition + rightHorizontalPosition != 10 ||
+                  rotatePosition != 2)) {
+            setState(() {
+              if (rotatePosition < 3)
+                rotatePosition++;
+              else
+                rotatePosition = 0;
+            });
+          }
+        } else {
+          if (baseHorizontalPosition != -1 &&
+              (baseHorizontalPosition + rightHorizontalPosition != 10 ||
+                  rotatePosition != 2)) {
+            setState(() {
+              if (rotatePosition > 0)
+                rotatePosition--;
+              else
+                rotatePosition = 3;
+            });
+          }
+        }
+        break;
+      case TETRIMINO_NAME.O:
+        // TODO: Handle this case.
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -69,7 +228,7 @@ class _GameScreenState extends State<GameScreen> {
                       child: IconButton(
                         onPressed: () {
                           setState(() {
-                            if (baseHorizontalPosition > 0)
+                            if (baseHorizontalPosition > minHorizontal)
                               baseHorizontalPosition--;
                           });
                         },
@@ -79,7 +238,7 @@ class _GameScreenState extends State<GameScreen> {
                     ),
                     Expanded(
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: () => _changeRotate(initTetrimino, true),
                         iconSize: 55.0,
                         icon: Icon(Icons.replay),
                       ),
@@ -98,7 +257,7 @@ class _GameScreenState extends State<GameScreen> {
                     ),
                     Expanded(
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: () => _changeRotate(initTetrimino, false),
                         iconSize: 55.0,
                         icon: Icon(Icons.refresh),
                       ),
@@ -125,6 +284,9 @@ class _GameScreenState extends State<GameScreen> {
             initHorizontalPosition: baseHorizontalPosition,
             initTetrimino: initTetrimino,
             initVerticalPosition: baseVerticalPosition,
+            rotatePosition: rotatePosition,
+            existDisablePosition: existDisableCollision,
+            changeRightHorizontalPosition: changeRightHorizontalPosition,
           ),
         ],
       ),
