@@ -84,16 +84,19 @@ class TetriminoCollision {
     collision = [];
     switch (rotatePosition) {
       case 0:
+      case 2:
         switch (index) {
           case 0:
-            collision.insertAll(0, [false, false, false, false]);
+            collision.insertAll(0, [false, true]);
             break;
           case 1:
-            collision.insertAll(0, [true, true, true, true]);
+            collision.insertAll(0, [false, true]);
             break;
           case 2:
+            collision.insertAll(0, [false, true]);
             break;
           case 3:
+            collision.insertAll(0, [false, true]);
             break;
           default:
             print("Error: No Such Index");
@@ -101,25 +104,7 @@ class TetriminoCollision {
         }
         break;
       case 1:
-        switch (index) {
-          case 0:
-            collision.insertAll(0, [false, true, false, false]);
-            break;
-          case 1:
-            collision.insertAll(0, [false, true, false, false]);
-            break;
-          case 2:
-            collision.insertAll(0, [false, true, false, false]);
-            break;
-          case 3:
-            collision.insertAll(0, [false, true, false, false]);
-            break;
-          default:
-            print("Error: No Such Index");
-            break;
-        }
-        break;
-      case 2:
+      case 3:
         switch (index) {
           case 0:
             collision.insertAll(0, [false, false, false, false]);
@@ -130,25 +115,6 @@ class TetriminoCollision {
           case 2:
             break;
           case 3:
-            break;
-          default:
-            print("Error: No Such Index");
-            break;
-        }
-        break;
-      case 3:
-        switch (index) {
-          case 0:
-            collision.insertAll(0, [false, true, false, false]);
-            break;
-          case 1:
-            collision.insertAll(0, [false, true, false, false]);
-            break;
-          case 2:
-            collision.insertAll(0, [false, true, false, false]);
-            break;
-          case 3:
-            collision.insertAll(0, [false, true, false, false]);
             break;
           default:
             print("Error: No Such Index");
@@ -166,6 +132,23 @@ class TetriminoCollision {
       case 0:
         switch (index) {
           case 0:
+            collision.insertAll(0, [false, true, false]);
+            break;
+          case 1:
+            collision.insertAll(0, [true, true, true]);
+            break;
+          case 2:
+            break;
+          case 3:
+            break;
+          default:
+            print("Error: No Such Index");
+            break;
+        }
+        break;
+      case 1:
+        switch (index) {
+          case 0:
             collision.insertAll(0, [false, true]);
             break;
           case 1:
@@ -181,30 +164,13 @@ class TetriminoCollision {
             break;
         }
         break;
-      case 1:
-        switch (index) {
-          case 0:
-            collision.insertAll(0, [false, true, false]);
-            break;
-          case 1:
-            collision.insertAll(0, [true, true, true]);
-            break;
-          case 2:
-            break;
-          case 3:
-            break;
-          default:
-            print("Error: No Such Index");
-            break;
-        }
-        break;
       case 2:
         switch (index) {
           case 0:
-            collision.insertAll(0, [false, true, false]);
+            collision.insertAll(0, [false, false, false]);
             break;
           case 1:
-            collision.insertAll(0, [false, true, true]);
+            collision.insertAll(0, [true, true, true]);
             break;
           case 2:
             collision.insertAll(0, [false, true, false]);
@@ -219,10 +185,10 @@ class TetriminoCollision {
       case 3:
         switch (index) {
           case 0:
-            collision.insertAll(0, [false, false, false]);
+            collision.insertAll(0, [false, true, false]);
             break;
           case 1:
-            collision.insertAll(0, [true, true, true]);
+            collision.insertAll(0, [false, true, true]);
             break;
           case 2:
             collision.insertAll(0, [false, true, false]);
@@ -244,24 +210,15 @@ class TetriminoCollision {
     collision = [];
     switch (rotatePosition) {
       case 0:
+      case 2:
         switch (index) {
           case 0:
-            collision.insertAll(0, [
-              true,
-              false,
-            ]);
+            collision.insertAll(0, [false, true, true]);
             break;
           case 1:
-            collision.insertAll(0, [
-              true,
-              true,
-            ]);
+            collision.insertAll(0, [true, true, false]);
             break;
           case 2:
-            collision.insertAll(0, [
-              false,
-              true,
-            ]);
             break;
           case 3:
             break;
@@ -271,84 +228,16 @@ class TetriminoCollision {
         }
         break;
       case 1:
-        switch (index) {
-          case 0:
-            collision.insertAll(0, [
-              false,
-              false,
-              false,
-            ]);
-            break;
-          case 1:
-            collision.insertAll(0, [
-              false,
-              true,
-              true,
-            ]);
-            break;
-          case 2:
-            collision.insertAll(0, [
-              true,
-              true,
-              false,
-            ]);
-            break;
-          case 3:
-            break;
-          default:
-            print("Error: No Such Index");
-            break;
-        }
-        break;
-      case 2:
-        switch (index) {
-          case 0:
-            collision.insertAll(0, [
-              true,
-              false,
-            ]);
-            break;
-          case 1:
-            collision.insertAll(0, [
-              true,
-              true,
-            ]);
-            break;
-          case 2:
-            collision.insertAll(0, [
-              false,
-              true,
-            ]);
-            break;
-          case 3:
-            break;
-          default:
-            print("Error: No Such Index");
-            break;
-        }
-        break;
       case 3:
         switch (index) {
           case 0:
-            collision.insertAll(0, [
-              false,
-              false,
-              false,
-            ]);
+            collision.insertAll(0, [false, true, false]);
             break;
           case 1:
-            collision.insertAll(0, [
-              false,
-              true,
-              true,
-            ]);
+            collision.insertAll(0, [false, true, true]);
             break;
           case 2:
-            collision.insertAll(0, [
-              true,
-              true,
-              false,
-            ]);
+            collision.insertAll(0, [false, false, true]);
             break;
           case 3:
             break;
@@ -365,24 +254,15 @@ class TetriminoCollision {
     collision = [];
     switch (rotatePosition) {
       case 0:
+      case 2:
         switch (index) {
           case 0:
-            collision.insertAll(0, [
-              false,
-              true,
-            ]);
+            collision.insertAll(0, [true, true, false]);
             break;
           case 1:
-            collision.insertAll(0, [
-              true,
-              true,
-            ]);
+            collision.insertAll(0, [false, true, true]);
             break;
           case 2:
-            collision.insertAll(0, [
-              true,
-              false,
-            ]);
             break;
           case 3:
             break;
@@ -392,84 +272,16 @@ class TetriminoCollision {
         }
         break;
       case 1:
-        switch (index) {
-          case 0:
-            collision.insertAll(0, [
-              false,
-              false,
-              false,
-            ]);
-            break;
-          case 1:
-            collision.insertAll(0, [
-              true,
-              true,
-              false,
-            ]);
-            break;
-          case 2:
-            collision.insertAll(0, [
-              false,
-              true,
-              true,
-            ]);
-            break;
-          case 3:
-            break;
-          default:
-            print("Error: No Such Index");
-            break;
-        }
-        break;
-      case 2:
-        switch (index) {
-          case 0:
-            collision.insertAll(0, [
-              false,
-              true,
-            ]);
-            break;
-          case 1:
-            collision.insertAll(0, [
-              true,
-              true,
-            ]);
-            break;
-          case 2:
-            collision.insertAll(0, [
-              true,
-              false,
-            ]);
-            break;
-          case 3:
-            break;
-          default:
-            print("Error: No Such Index");
-            break;
-        }
-        break;
       case 3:
         switch (index) {
           case 0:
-            collision.insertAll(0, [
-              false,
-              false,
-              false,
-            ]);
+            collision.insertAll(0, [false, false, true]);
             break;
           case 1:
-            collision.insertAll(0, [
-              true,
-              true,
-              false,
-            ]);
+            collision.insertAll(0, [false, true, true]);
             break;
           case 2:
-            collision.insertAll(0, [
-              false,
-              true,
-              true,
-            ]);
+            collision.insertAll(0, [false, true, false]);
             break;
           case 3:
             break;
@@ -488,7 +300,7 @@ class TetriminoCollision {
       case 0:
         switch (index) {
           case 0:
-            collision.insertAll(0, [false, false, true]);
+            collision.insertAll(0, [true, false, false]);
             break;
           case 1:
             collision.insertAll(0, [true, true, true]);
@@ -505,13 +317,13 @@ class TetriminoCollision {
       case 1:
         switch (index) {
           case 0:
-            collision.insertAll(0, [false, true, false]);
+            collision.insertAll(0, [false, true]);
             break;
           case 1:
-            collision.insertAll(0, [false, true, false]);
+            collision.insertAll(0, [false, true]);
             break;
           case 2:
-            collision.insertAll(0, [false, true, true]);
+            collision.insertAll(0, [true, true]);
             break;
           case 3:
             break;
@@ -529,7 +341,7 @@ class TetriminoCollision {
             collision.insertAll(0, [true, true, true]);
             break;
           case 2:
-            collision.insertAll(0, [true, false, false]);
+            collision.insertAll(0, [false, false, true]);
             break;
           case 3:
             break;
@@ -541,13 +353,13 @@ class TetriminoCollision {
       case 3:
         switch (index) {
           case 0:
-            collision.insertAll(0, [true, true]);
+            collision.insertAll(0, [false, true, true]);
             break;
           case 1:
-            collision.insertAll(0, [false, true,]);
+            collision.insertAll(0, [false, true, false]);
             break;
           case 2:
-            collision.insertAll(0, [false, true]);
+            collision.insertAll(0, [false, true, false]);
             break;
           case 3:
             break;
@@ -566,13 +378,12 @@ class TetriminoCollision {
       case 0:
         switch (index) {
           case 0:
-            collision.insertAll(0, [false, false, false]);
+            collision.insertAll(0, [false, false, true]);
             break;
           case 1:
             collision.insertAll(0, [true, true, true]);
             break;
           case 2:
-            collision.insertAll(0, [false, false, true]);
             break;
           case 3:
             break;
@@ -584,13 +395,16 @@ class TetriminoCollision {
       case 1:
         switch (index) {
           case 0:
-            collision.insertAll(0, [false, true]);
+            collision.insertAll(0, [true, true]);
             break;
           case 1:
-            collision.insertAll(0, [false, true]);
+            collision.insertAll(0, [
+              false,
+              true,
+            ]);
             break;
           case 2:
-            collision.insertAll(0, [true, true]);
+            collision.insertAll(0, [false, true]);
             break;
           case 3:
             break;
@@ -602,12 +416,13 @@ class TetriminoCollision {
       case 2:
         switch (index) {
           case 0:
-            collision.insertAll(0, [true, false, false]);
+            collision.insertAll(0, [false, false, false]);
             break;
           case 1:
             collision.insertAll(0, [true, true, true]);
             break;
           case 2:
+            collision.insertAll(0, [true, false, false]);
             break;
           case 3:
             break;
@@ -619,13 +434,13 @@ class TetriminoCollision {
       case 3:
         switch (index) {
           case 0:
-            collision.insertAll(0, [false, true, true]);
+            collision.insertAll(0, [false, true, false]);
             break;
           case 1:
             collision.insertAll(0, [false, true, false]);
             break;
           case 2:
-            collision.insertAll(0, [false, true, false]);
+            collision.insertAll(0, [false, true, true]);
             break;
           case 3:
             break;
@@ -668,13 +483,13 @@ class TetriminoCollision {
         break;
       case TETRIMINO_NAME.S:
       case TETRIMINO_NAME.Z:
-        return rotatePosition == 1;
+        return rotatePosition == 1 || rotatePosition == 3;
         break;
       case TETRIMINO_NAME.J:
-        return rotatePosition == 2;
+        return rotatePosition == 3;
         break;
       case TETRIMINO_NAME.L:
-        return rotatePosition == 0;
+        return rotatePosition == 3;
         break;
       case TETRIMINO_NAME.O:
         // TODO: Handle this case.

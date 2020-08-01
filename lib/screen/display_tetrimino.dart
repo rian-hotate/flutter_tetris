@@ -10,6 +10,7 @@ class DisplayTetrimino extends StatefulWidget {
   final int rotatePosition;
   final Function(TETRIMINO_NAME, bool) existDisablePosition;
   final Function(int) changeRightHorizontalPosition;
+  final Function(int) changeBottomVerticalPosition;
 
   DisplayTetrimino({
     @required this.initTetrimino,
@@ -18,6 +19,7 @@ class DisplayTetrimino extends StatefulWidget {
     @required this.rotatePosition,
     @required this.existDisablePosition,
     @required this.changeRightHorizontalPosition,
+    @required this.changeBottomVerticalPosition,
   });
 
   @override
@@ -25,33 +27,6 @@ class DisplayTetrimino extends StatefulWidget {
 }
 
 class _DisplayTetriminoState extends State<DisplayTetrimino> {
-  Color _getTetriminoColor(TETRIMINO_NAME name) {
-    switch (name) {
-      case TETRIMINO_NAME.I:
-        return Colors.blueAccent;
-        break;
-      case TETRIMINO_NAME.T:
-        return Colors.purpleAccent;
-        break;
-      case TETRIMINO_NAME.S:
-        return Colors.red;
-        break;
-      case TETRIMINO_NAME.Z:
-        return Colors.green;
-        break;
-      case TETRIMINO_NAME.J:
-        return Colors.blue;
-        break;
-      case TETRIMINO_NAME.L:
-        return Colors.orange;
-        break;
-      case TETRIMINO_NAME.O:
-        return Colors.yellow;
-        break;
-    }
-    return Colors.transparent;
-  }
-
   Container _getTetriminoWidget(TETRIMINO_NAME name, bool collision) {
     if (collision) {
       return Container(
@@ -59,7 +34,7 @@ class _DisplayTetriminoState extends State<DisplayTetrimino> {
         height: 30,
         padding: const EdgeInsets.all(2.0),
         decoration: BoxDecoration(
-          color: _getTetriminoColor(name),
+          color: getTetriminoColor(name),
           border: Border.all(color: Colors.black),
         ),
       );
@@ -76,8 +51,8 @@ class _DisplayTetriminoState extends State<DisplayTetrimino> {
     }
   }
 
-  List<Column> createItem(TETRIMINO_NAME name) {
-    List<Column> _tetriminoList = [];
+  List<Row> createItem(TETRIMINO_NAME name) {
+    List<Row> _tetriminoList = [];
     TetriminoInfo itemInfo;
     switch (name) {
       case TETRIMINO_NAME.I:
@@ -104,11 +79,11 @@ class _DisplayTetriminoState extends State<DisplayTetrimino> {
     }
 
     widget.existDisablePosition(name, itemInfo.disableCollision);
-    int cnt = 0;
     itemInfo
         .tetrimino
         .forEach((TetriminoCollision element) {
       List<Widget> _listVertical = [];
+      int cnt = 0;
       element.collision.forEach((bool value) {
         if (!itemInfo.disableCollision ||
             widget.initHorizontalPosition >= 0) {
@@ -120,16 +95,18 @@ class _DisplayTetriminoState extends State<DisplayTetrimino> {
             _getTetriminoWidget(name, value),
           );
         }
+        cnt++;
       });
-      cnt++;
+      widget.changeRightHorizontalPosition(element.collision.length);
       _tetriminoList.add(
-        Column(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: _listVertical,
         ),
       );
     });
+    widget.changeBottomVerticalPosition(itemInfo.tetrimino.length);
 
-    widget.changeRightHorizontalPosition(cnt);
     return _tetriminoList;
   }
 
@@ -143,6 +120,7 @@ class _DisplayTetriminoState extends State<DisplayTetrimino> {
         ),
       ),
       Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Container(
             height: height * 30.0,
@@ -151,8 +129,8 @@ class _DisplayTetriminoState extends State<DisplayTetrimino> {
               border: Border.all(color: Colors.transparent),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: createItem(widget.initTetrimino),
           ),
         ],
